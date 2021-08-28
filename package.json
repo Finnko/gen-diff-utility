@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Finnko/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^8.1.0"
+    "commander": "^8.1.0",
+    "lodash": "4.17.21"
   }
 }
