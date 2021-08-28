@@ -1,4 +1,4 @@
-name: lint-check
+name: tests-check
 
 on:
   push:
@@ -16,3 +16,5 @@ jobs:
       - run: make install
 
       - run: make lint
+
+      - run: make test
