@@ -1,0 +1,10 @@
+{
+    brand: BMW
+  - engine: diesel
+  + engine: gasoline
+  + interior: leather
+    model: 3er
+  - modification: 320
+  + modification: 328
+  - transmission: xdrive
+}
