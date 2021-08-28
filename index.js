@@ -39,8 +39,6 @@ const formatLine = (type, key, value) => {
 // }
 
 const buildDiff = (objA, objB) => {
-  console.log(objA);
-  console.log(objB);
   let result = '';
 
   const keys = _.sortBy(_.union(_.keys(objA), _.keys(objB)));
