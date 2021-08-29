@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 import process from 'process';
 import _ from 'lodash';
 
@@ -9,6 +10,12 @@ const ChangeTypes = {
   ADDED: 'ADDED',
   REMOVED: 'REMOVED',
   UNCHANGED: 'UNCHANGED',
+};
+
+const parseFunctions = {
+  json: JSON.parse,
+  yml: yaml.load,
+  yaml: yaml.load,
 };
 
 const readFileData = (filepath) => {
@@ -69,16 +76,11 @@ const buildDiff = (objA, objB) => {
 export default (filepath1, filepath2) => {
   const file1 = readFileData(filepath1);
   const file2 = readFileData(filepath2);
-
   const type = path.extname(filepath1).slice(1);
-  let diff = '';
+  const parser = parseFunctions[type];
 
-  if (type === 'json') {
-    const obj1 = JSON.parse(file1);
-    const obj2 = JSON.parse(file2);
+  const obj1 = parser(file1);
+  const obj2 = parser(file2);
 
-    diff = buildDiff(obj1, obj2);
-  }
-
-  return diff;
+  return buildDiff(obj1, obj2);
 };
