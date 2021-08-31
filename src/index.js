@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 import process from 'process';
 import _ from 'lodash';
 import ChangeTypes from './const.js';
-import formatter from './formatter.js';
+import formatDiff from './formatter.js';
 
 const parseFunctions = {
   json: JSON.parse,
@@ -74,11 +74,7 @@ export default (filepath1, filepath2) => {
 
   const obj1 = parser1(file1);
   const obj2 = parser2(file2);
-  console.log(buildDiff(obj1, obj2));
-
   const diff = buildDiff(obj1, obj2);
 
-  diff.map((item) => console.log(JSON.stringify(item)));
-
-  // return buildDiff(obj1, obj2);
+  return formatDiff(diff);
 };
