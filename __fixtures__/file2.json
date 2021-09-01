@@ -14,18 +14,5 @@
                 "wow": "so much"
             }
         }
-    },
-    "group1": {
-        "foo": "bar",
-        "baz": "bars",
-        "nest": "str"
-    },
-    "group3": {
-        "deep": {
-            "id": {
-                "number": 45
-            }
-        },
-        "fee": 100500
     }
 }
