@@ -50,8 +50,8 @@ const buildDiff = (objA, objB) => {
         return {
           key,
           type: ChangeTypes.UPDATED,
-          value1: objA[key],
-          value2: objB[key],
+          oldValue: objA[key],
+          newValue: objB[key],
         };
       }
     }

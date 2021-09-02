@@ -1,36 +1,51 @@
+import _ from 'lodash';
 import ChangeTypes from './const.js';
 
 const SPACE_COUNT = 4;
 
-// const formatObjectToString = (value) => {
-//   if (ob)
-//
-// }
+const getIndent = (value) => ' '.repeat(value);
 
-export default function formatDiff(diff, indent = SPACE_COUNT) {
+const transformObjectToString = (item, indentValue) => {
+  if (!_.isObject(item)) {
+    return item;
+  }
+
+  const result = Object.keys(item).map((key) => {
+    return `${getIndent(indentValue + 4)}${key}: ${transformObjectToString(item[key], indentValue + 4)}\n`;
+  });
+
+  return `{\n${result.join('')}${getIndent(indentValue)}}`;
+};
+
+const stringifyValue = (item, indent) => {
+  if (!_.isObject(item)) return item;
+
+  return transformObjectToString(item, indent);
+};
+
+export default function formatDiff(diff, indentValue = SPACE_COUNT) {
   const styledDiff = diff.map((node) => {
     const {
       type,
       key,
+      value,
     } = node;
-
-    console.log({indent})
 
     switch (type) {
       case ChangeTypes.REMOVED:
-        return `${' '.repeat(indent - 2)}- ${key}: ${node.value}\n`;
+        return `${getIndent(indentValue - 2)}- ${key}: ${stringifyValue(value, indentValue)}\n`;
       case ChangeTypes.ADDED:
-        return `${' '.repeat(indent - 2)}+ ${key}: ${node.value}\n`;
+        return `${getIndent(indentValue - 2)}+ ${key}: ${stringifyValue(value, indentValue)}\n`;
       case ChangeTypes.UNCHANGED:
-        return `${' '.repeat(indent)}${key}: ${node.value}\n`;
+        return `${getIndent(indentValue)}${key}: ${stringifyValue(value, indentValue)}\n`;
       case ChangeTypes.UPDATED:
-        return `${' '.repeat(indent - 2)}- ${key}: ${node.value1}\n${' '.repeat(indent - 2)}+ ${key}: ${node.value2}\n`;
+        return `${getIndent(indentValue - 2)}- ${key}: ${stringifyValue(node.oldValue, indentValue)}\n${getIndent(indentValue - 2)}+ ${key}: ${stringifyValue(node.newValue, indentValue)}\n`;
       case ChangeTypes.WITH_CHILDREN:
-        return `${' '.repeat(indent)}${key}: ${formatDiff(node.children, indent + 4)}\n`;
+        return `${getIndent(indentValue)}${key}: ${formatDiff(node.children, indentValue + 4)}\n`;
       default:
         throw new Error(`Unexpected type ${type}`);
     }
   });
 
-  return `{\n${styledDiff.join('')}${' '.repeat(indent - 4)}}`;
+  return `{\n${styledDiff.join('')}${getIndent(indentValue - 4)}}`;
 }

@@ -15,8 +15,8 @@ describe('Test genDiff function', () => {
     expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toBe(expectedJson);
   });
 
-  test('genDiff should works correctly with yaml plain objects', () => {
-    const expectedYaml = readFileData('expected-yaml.txt');
-    expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toBe(expectedYaml);
-  });
+  // test('genDiff should works correctly with yaml plain objects', () => {
+  //   const expectedYaml = readFileData('expected-yaml.txt');
+  //   expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toBe(expectedYaml);
+  // });
 });
