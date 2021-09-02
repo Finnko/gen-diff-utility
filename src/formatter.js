@@ -10,9 +10,9 @@ const transformObjectToString = (item, indentValue) => {
     return item;
   }
 
-  const result = Object.keys(item).map((key) => {
-    return `${getIndent(indentValue + 4)}${key}: ${transformObjectToString(item[key], indentValue + 4)}\n`;
-  });
+  const result = Object.keys(item).map((key) => (
+    `${getIndent(indentValue + 4)}${key}: ${transformObjectToString(item[key], indentValue + 4)}\n`
+  ));
 
   return `{\n${result.join('')}${getIndent(indentValue)}}`;
 };
