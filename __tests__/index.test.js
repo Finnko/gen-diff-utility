@@ -11,26 +11,38 @@ const readFileData = (filename) => fs.readFileSync(getFixturePath(filename), 'ut
 
 describe('Test genDiff function', () => {
   describe('stylish format should works correctly', () => {
-    it('genDiff should works correctly with json plain objects', () => {
-      const expectedJson = readFileData('expected-json.txt');
-      expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toBe(expectedJson);
+    const expected = readFileData('expected-stylish.txt');
+    
+    it('genDiff stylish formatter should works correctly with json files', () => {
+      expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toBe(expected);
     });
 
-    it('genDiff should works correctly with yaml plain objects', () => {
-      const expectedYaml = readFileData('expected-yaml.txt');
-      expect(genDiff('__fixtures__/file1.yml', '__fixtures__/file2.yaml')).toBe(expectedYaml);
+    it('genDiff stylish formatter should works correctly with yaml/yml files', () => {
+      expect(genDiff('__fixtures__/file1.yml', '__fixtures__/file2.yaml')).toBe(expected);
     });
   });
 
   describe('plain format should works correctly', () => {
     const expected = readFileData('expected-plain.txt');
-    
-    it('genDiff should works correctly with json plain objects', () => {
+
+    it('genDiff plain formatter should works correctly with json files', () => {
       expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'plain')).toBe(expected);
     });
 
-    it('genDiff should works correctly with yaml plain objects', () => {
+    it('genDiff plain formatter should works correctly with yaml/yml files', () => {
       expect(genDiff('__fixtures__/file1.yml', '__fixtures__/file2.yaml', 'plain')).toBe(expected);
+    });
+  });
+
+  describe('json format should works correctly', () => {
+    const expected = readFileData('expected-json.txt');
+
+    it('genDiff json formatter should works correctly with json files', () => {
+      expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'json')).toBe(expected);
+    });
+
+    it('genDiff json formatter should works correctly with yaml/yml files', () => {
+      expect(genDiff('__fixtures__/file1.yml', '__fixtures__/file2.yaml', 'json')).toBe(expected);
     });
   });
 });
