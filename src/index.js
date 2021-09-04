@@ -72,9 +72,9 @@ export default (filepath1, filepath2, formatName) => {
   const parser1 = parseFunctions[type1];
   const parser2 = parseFunctions[type2];
 
-  const obj1 = parser1(file1);
-  const obj2 = parser2(file2);
-  const diff = buildDiff(obj1, obj2);
+  const data1 = parser1(file1);
+  const data2 = parser2(file2);
+  const diff = buildDiff(data1, data2);
 
   return formatter(diff, formatName);
 };
