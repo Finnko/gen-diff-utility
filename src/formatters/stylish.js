@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import ChangeTypes from './const.js';
+import ChangeTypes from '../const.js';
 
 const SPACE_COUNT = 4;
 
@@ -23,7 +23,7 @@ const stringifyValue = (item, indent) => {
   return transformObjectToString(item, indent);
 };
 
-export default function formatDiff(diff, indentValue = SPACE_COUNT) {
+export default function formatStylish(diff, indentValue = SPACE_COUNT) {
   const styledDiff = diff.map((node) => {
     const {
       type,
@@ -41,7 +41,7 @@ export default function formatDiff(diff, indentValue = SPACE_COUNT) {
       case ChangeTypes.UPDATED:
         return `${getIndent(indentValue - 2)}- ${key}: ${stringifyValue(node.oldValue, indentValue)}\n${getIndent(indentValue - 2)}+ ${key}: ${stringifyValue(node.newValue, indentValue)}\n`;
       case ChangeTypes.WITH_CHILDREN:
-        return `${getIndent(indentValue)}${key}: ${formatDiff(node.children, indentValue + 4)}\n`;
+        return `${getIndent(indentValue)}${key}: ${formatStylish(node.children, indentValue + 4)}\n`;
       default:
         throw new Error(`Unexpected type ${type}`);
     }
