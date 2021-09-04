@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 import process from 'process';
 import _ from 'lodash';
 import ChangeTypes from './const.js';
-import formatDiff from './formatter.js';
+import formatter from './formatters/index.js';
 
 const parseFunctions = {
   json: JSON.parse,
@@ -64,7 +64,7 @@ const buildDiff = (objA, objB) => {
   });
 };
 
-export default (filepath1, filepath2) => {
+export default (filepath1, filepath2, formatName) => {
   const file1 = readFileData(filepath1);
   const file2 = readFileData(filepath2);
   const type1 = path.extname(filepath1).slice(1);
@@ -76,5 +76,5 @@ export default (filepath1, filepath2) => {
   const obj2 = parser2(file2);
   const diff = buildDiff(obj1, obj2);
 
-  return formatDiff(diff);
+  return formatter(diff, formatName);
 };
