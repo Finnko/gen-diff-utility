@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Finnko/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/Finnko/frontend-project-lvl2/actions)",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "npx jest --bail",
     "watch": "npx jest --watch",
