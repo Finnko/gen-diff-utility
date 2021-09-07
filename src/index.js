@@ -11,6 +11,8 @@ const readFileData = (filepath) => {
   return fs.readFileSync(currentPath, 'utf-8');
 };
 
+const getFileType = (filepath) => path.extname(filepath).slice(1);
+
 const buildDiff = (objA, objB) => {
   const keys = _.sortBy(_.union(_.keys(objA), _.keys(objB)));
 
@@ -39,7 +41,7 @@ const buildDiff = (objA, objB) => {
       };
     }
 
-    if (objA[key] !== objB[key]) {
+    if (!_.isEqual(objA[key], objB[key])) {
       return {
         key,
         type: ChangeTypes.UPDATED,
@@ -59,8 +61,8 @@ const buildDiff = (objA, objB) => {
 export default (filepath1, filepath2, formatName) => {
   const file1 = readFileData(filepath1);
   const file2 = readFileData(filepath2);
-  const type1 = path.extname(filepath1).slice(1);
-  const type2 = path.extname(filepath2).slice(1);
+  const type1 = getFileType(filepath1);
+  const type2 = getFileType(filepath2);
 
   const data1 = parseFile(file1, type1);
   const data2 = parseFile(file2, type2);
