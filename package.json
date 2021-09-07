@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/Finnko/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/Finnko/frontend-project-lvl2/actions)",
+  "description": "[![Actions Status](https://github.com/Finnko/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/Finnko/frontend-project-lvl2/actions) Gen diff cli app - compares two configuration files and shows a difference.",
   "main": "src/index.js",
   "scripts": {
     "test": "npx jest --bail",
