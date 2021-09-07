@@ -21,7 +21,7 @@ const buildDiff = (objA, objB) => {
   const keys = _.sortBy(_.union(_.keys(objA), _.keys(objB)));
 
   return keys.map((key) => {
-    if (!_.has(objA, `${key}`)) {
+    if (!_.has(objA, key)) {
       return {
         key,
         type: ChangeTypes.ADDED,
@@ -29,7 +29,7 @@ const buildDiff = (objA, objB) => {
       };
     }
 
-    if (!_.has(objB, `${key}`)) {
+    if (!_.has(objB, key)) {
       return {
         key,
         type: ChangeTypes.REMOVED,
@@ -37,25 +37,23 @@ const buildDiff = (objA, objB) => {
       };
     }
 
-    if (_.has(objA, `${key}`) && _.has(objB, `${key}`)) {
-      if (_.isObject(objA[key]) && _.isObject(objB[key])) {
-        return {
-          key,
-          type: ChangeTypes.WITH_CHILDREN,
-          children: buildDiff(objA[key], objB[key]),
-        };
-      }
-
-      if (objA[key] !== objB[key]) {
-        return {
-          key,
-          type: ChangeTypes.UPDATED,
-          oldValue: objA[key],
-          newValue: objB[key],
-        };
-      }
+    if (_.isPlainObject(objA[key]) && _.isPlainObject(objB[key])) {
+      return {
+        key,
+        type: ChangeTypes.WITH_CHILDREN,
+        children: buildDiff(objA[key], objB[key]),
+      };
     }
 
+    if (objA[key] !== objB[key]) {
+      return {
+        key,
+        type: ChangeTypes.UPDATED,
+        oldValue: objA[key],
+        newValue: objB[key],
+      };
+    }
+    
     return {
       key,
       type: ChangeTypes.UNCHANGED,

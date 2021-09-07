@@ -1,4 +1,4 @@
-name: tests-check
+name: tests-coverage
 
 on:
   push:
@@ -8,8 +8,9 @@ on:
       - '**'
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -18,3 +19,10 @@ jobs:
       - run: make lint
 
       - run: make test
+        
+      - name: Test & code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_ID }}
+        with:
+          coverageCommand: make coverage
