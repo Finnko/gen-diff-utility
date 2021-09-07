@@ -24,7 +24,7 @@ const stringifyValue = (item, indent) => {
 };
 
 export default function formatStylish(diff, indentValue = SPACE_COUNT) {
-  const styledDiff = diff.map((node) => {
+  const styledDiff = diff.flatMap((node) => {
     const {
       type,
       key,
@@ -33,19 +33,22 @@ export default function formatStylish(diff, indentValue = SPACE_COUNT) {
 
     switch (type) {
       case ChangeTypes.REMOVED:
-        return `${getIndent(indentValue - 2)}- ${key}: ${stringifyValue(value, indentValue)}\n`;
+        return `${getIndent(indentValue - SPACE_COUNT / 2)}- ${key}: ${stringifyValue(value, indentValue)}\n`;
       case ChangeTypes.ADDED:
-        return `${getIndent(indentValue - 2)}+ ${key}: ${stringifyValue(value, indentValue)}\n`;
+        return `${getIndent(indentValue - SPACE_COUNT / 2)}+ ${key}: ${stringifyValue(value, indentValue)}\n`;
       case ChangeTypes.UNCHANGED:
         return `${getIndent(indentValue)}${key}: ${stringifyValue(value, indentValue)}\n`;
       case ChangeTypes.UPDATED:
-        return `${getIndent(indentValue - 2)}- ${key}: ${stringifyValue(node.oldValue, indentValue)}\n${getIndent(indentValue - 2)}+ ${key}: ${stringifyValue(node.newValue, indentValue)}\n`;
+        return [
+          `${getIndent(indentValue - SPACE_COUNT / 2)}- ${key}: ${stringifyValue(node.oldValue, indentValue)}\n`,
+          `${getIndent(indentValue - SPACE_COUNT / 2)}+ ${key}: ${stringifyValue(node.newValue, indentValue)}\n`,
+        ];
       case ChangeTypes.WITH_CHILDREN:
-        return `${getIndent(indentValue)}${key}: ${formatStylish(node.children, indentValue + 4)}\n`;
+        return `${getIndent(indentValue)}${key}: ${formatStylish(node.children, indentValue + SPACE_COUNT)}\n`;
       default:
         throw new Error(`Unexpected type ${type}`);
     }
   });
 
-  return `{\n${styledDiff.join('')}${getIndent(indentValue - 4)}}`;
+  return `{\n${styledDiff.join('')}${getIndent(indentValue - SPACE_COUNT)}}`;
 }

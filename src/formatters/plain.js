@@ -2,15 +2,21 @@ import _ from 'lodash';
 import ChangeTypes from '../const.js';
 
 const getValueType = (value) => {
-  if (typeof value === 'string') return `'${value}'`;
+  if (_.isString(value)) {
+    return `'${value}'`;
+  }
 
-  if (_.isObject(value)) return '[complex value]';
+  if (_.isObject(value)) {
+    return '[complex value]';
+  }
 
   return value;
 };
 
 const getKeyPath = (path, key) => {
-  if (path.length > 0) return `${path.join('.')}.${key}`;
+  if (path.length > 0) {
+    return [...path, key].join('.');
+  }
 
   return key;
 };
