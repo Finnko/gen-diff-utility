@@ -1,16 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import yaml from 'js-yaml';
 import process from 'process';
 import _ from 'lodash';
 import ChangeTypes from './const.js';
 import formatter from './formatters/index.js';
-
-const parseFunctions = {
-  json: JSON.parse,
-  yml: yaml.load,
-  yaml: yaml.load,
-};
+import parseFile from './parser.js';
 
 const readFileData = (filepath) => {
   const currentPath = path.resolve(process.cwd(), `${filepath}`);
@@ -53,7 +47,7 @@ const buildDiff = (objA, objB) => {
         newValue: objB[key],
       };
     }
-    
+
     return {
       key,
       type: ChangeTypes.UNCHANGED,
@@ -67,11 +61,9 @@ export default (filepath1, filepath2, formatName) => {
   const file2 = readFileData(filepath2);
   const type1 = path.extname(filepath1).slice(1);
   const type2 = path.extname(filepath2).slice(1);
-  const parser1 = parseFunctions[type1];
-  const parser2 = parseFunctions[type2];
 
-  const data1 = parser1(file1);
-  const data2 = parser2(file2);
+  const data1 = parseFile(file1, type1);
+  const data2 = parseFile(file2, type2);
   const diff = buildDiff(data1, data2);
 
   return formatter(diff, formatName);
