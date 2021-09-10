@@ -58,7 +58,7 @@ const buildDiff = (objA, objB) => {
   });
 };
 
-export default (filepath1, filepath2, formatName) => {
+export default (filepath1, filepath2, formatName = 'stylish') => {
   const file1 = readFileData(filepath1);
   const file2 = readFileData(filepath2);
   const type1 = getFileType(filepath1);

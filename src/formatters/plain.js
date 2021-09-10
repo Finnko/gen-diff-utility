@@ -13,14 +13,6 @@ const getValueType = (value) => {
   return value;
 };
 
-const getKeyPath = (path, key) => {
-  if (path.length > 0) {
-    return [...path, key].join('.');
-  }
-
-  return key;
-};
-
 export default function formatPlain(diff, path = []) {
   const changedNodes = diff.filter((node) => node.type !== ChangeTypes.UNCHANGED);
 
@@ -30,13 +22,16 @@ export default function formatPlain(diff, path = []) {
       key,
     } = node;
 
+    const keys = [...path, key];
+    const attrName = keys.join('.');
+
     switch (type) {
       case ChangeTypes.REMOVED:
-        return `Property '${getKeyPath(path, key)}' was removed`;
+        return `Property '${attrName}' was removed`;
       case ChangeTypes.ADDED:
-        return `Property '${getKeyPath(path, key)}' was added with value: ${getValueType(node.value)}`;
+        return `Property '${attrName}' was added with value: ${getValueType(node.value)}`;
       case ChangeTypes.UPDATED:
-        return `Property '${getKeyPath(path, key)}' was updated. From ${getValueType(node.oldValue)} to ${getValueType(node.newValue)}`;
+        return `Property '${attrName}' was updated. From ${getValueType(node.oldValue)} to ${getValueType(node.newValue)}`;
       case ChangeTypes.WITH_CHILDREN:
         return formatPlain(node.children, [...path, key]);
       default:

@@ -8,5 +8,10 @@ const parseFunctions = {
 
 export default (file, type) => {
   const parser = parseFunctions[type];
+
+  if (!parser) {
+    throw new Error(`Unknown file type: ${type}`);
+  }
+
   return parser(file);
 };

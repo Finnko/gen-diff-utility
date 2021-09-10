@@ -17,8 +17,6 @@ jobs:
       - run: make install
 
       - run: make lint
-
-      - run: make test
         
       - name: Test & code coverage
         uses: paambaati/codeclimate-action@v2.7.5

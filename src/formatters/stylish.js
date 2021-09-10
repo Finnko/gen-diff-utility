@@ -18,7 +18,9 @@ const transformObjectToString = (item, indentValue) => {
 };
 
 const stringifyValue = (item, indent) => {
-  if (!_.isObject(item)) return item;
+  if (!_.isObject(item)) {
+    return item;
+  }
 
   return transformObjectToString(item, indent);
 };
@@ -33,22 +35,22 @@ export default function formatStylish(diff, indentValue = SPACE_COUNT) {
 
     switch (type) {
       case ChangeTypes.REMOVED:
-        return `${getIndent(indentValue - SPACE_COUNT / 2)}- ${key}: ${stringifyValue(value, indentValue)}\n`;
+        return `${getIndent(indentValue - SPACE_COUNT / 2)}- ${key}: ${stringifyValue(value, indentValue)}`;
       case ChangeTypes.ADDED:
-        return `${getIndent(indentValue - SPACE_COUNT / 2)}+ ${key}: ${stringifyValue(value, indentValue)}\n`;
+        return `${getIndent(indentValue - SPACE_COUNT / 2)}+ ${key}: ${stringifyValue(value, indentValue)}`;
       case ChangeTypes.UNCHANGED:
-        return `${getIndent(indentValue)}${key}: ${stringifyValue(value, indentValue)}\n`;
+        return `${getIndent(indentValue)}${key}: ${stringifyValue(value, indentValue)}`;
       case ChangeTypes.UPDATED:
         return [
-          `${getIndent(indentValue - SPACE_COUNT / 2)}- ${key}: ${stringifyValue(node.oldValue, indentValue)}\n`,
-          `${getIndent(indentValue - SPACE_COUNT / 2)}+ ${key}: ${stringifyValue(node.newValue, indentValue)}\n`,
+          `${getIndent(indentValue - SPACE_COUNT / 2)}- ${key}: ${stringifyValue(node.oldValue, indentValue)}`,
+          `${getIndent(indentValue - SPACE_COUNT / 2)}+ ${key}: ${stringifyValue(node.newValue, indentValue)}`,
         ];
       case ChangeTypes.WITH_CHILDREN:
-        return `${getIndent(indentValue)}${key}: ${formatStylish(node.children, indentValue + SPACE_COUNT)}\n`;
+        return `${getIndent(indentValue)}${key}: ${formatStylish(node.children, indentValue + SPACE_COUNT)}`;
       default:
         throw new Error(`Unexpected type ${type}`);
     }
   });
 
-  return `{\n${styledDiff.join('')}${getIndent(indentValue - SPACE_COUNT)}}`;
+  return `{\n${styledDiff.join('\n')}\n${getIndent(indentValue - SPACE_COUNT)}}`;
 }
